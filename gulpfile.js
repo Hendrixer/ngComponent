@@ -19,8 +19,6 @@ if(validBumpTypes.indexOf(Bump) === -1) {
   throw new Error('Unrecognized bump "' + Bump + '".');
 }
 
-console.log('bump---------', Bump)
-
 var args = { bump: Bump };
 
 // Paths to all src files

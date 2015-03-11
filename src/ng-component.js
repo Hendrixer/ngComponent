@@ -5,10 +5,6 @@ angular.module('ngComponent', [])
   // have to make this local, not global
   // all directives will use this one object them
   // or clear it when they make a new one
-  // var cache = {
-  //   domEvents: {}
-  // }; //events
-
   var globe = {};
 
   var getDefaults = function() {
@@ -21,13 +17,13 @@ angular.module('ngComponent', [])
       template: '<div>Default ngComponent template, go change it</div>',
       compile: function() {
         if (cache.start) {
-          cache.start.apply(this, arguments);
+          cache.start.apply(that, arguments);
         }
 
         return {
           pre: function() {
             if (cache.beforeReadyFn) {
-              cache.beforeReadyFn.apply(this, arguments);
+              cache.beforeReadyFn.apply(that, arguments);
             }
           },
 
@@ -41,11 +37,11 @@ angular.module('ngComponent', [])
                   var locals = [].slice.call(args);
                   locals.unshift(e);
 
-                  cb.apply(this, locals);
+                  cb.apply(that, locals);
 
-                }.bind(this));
-              }.bind(this));
-            }.bind(this));
+                });
+              });
+            });
 
 
             scope.$on('$destroy', function() {
@@ -55,7 +51,7 @@ angular.module('ngComponent', [])
             });
 
             if (cache.readyFn) {
-              cache.readyFn.apply(this, args);
+              cache.readyFn.apply(that, args);
             }
 
             if (cache._template) {
@@ -76,7 +72,7 @@ angular.module('ngComponent', [])
 
       transclude: false,
       restrict: 'EA',
-      replace: false,
+      replace: true,
       scope: false
     };
 
@@ -158,18 +154,11 @@ angular.module('ngComponent', [])
     return this;
   };
 
-  Component.prototype.parent = function(parent) {
-    if (parent) {
-      this.require = '^?'+ parent;
-    }
-    return this;
-  };
-
-  // Component.prototype.observe = function(attr, cb) {
-  //   if (attr && cb && typeof cb === 'function') {
-  //     this._cache.observe = this._cache.observe || {};
-  //     this._cache.observe[attr] = cb;
+  // Component.prototype.parent = function(parent) {
+  //   if (parent) {
+  //     this.require = '^?'+ parent;
   //   }
+  //   return this;
   // };
 
   return {
