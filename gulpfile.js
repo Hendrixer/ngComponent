@@ -45,6 +45,11 @@ gulp.task('clean', function() {
     .pipe(vf(del));
 });
 
+gulp.task('del:change', function() {
+  return gulp.src('./CHANGELOG.md')
+    .pipe(vf(del));
+});
+
 
 // run dev env for visually inspecting the plugin
 gulp.task('dev', ['build'], function(done) {
@@ -113,6 +118,7 @@ gulp.task('release', function(done){
     'build',
     'lint',
     'bump-version',
+    'del:chagne',
     'changelog',
     done
   );
